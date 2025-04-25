@@ -1,0 +1,10 @@
+ALTER TABLE reflexion ADD note1prof INT;
+ALTER TABLE reflexion ADD com1prof VARCHAR(200);
+ALTER TABLE reflexion ADD note2prof INT;
+ALTER TABLE reflexion ADD com2prof VARCHAR(200);
+ALTER TABLE reflexion ADD note3prof INT;
+ALTER TABLE reflexion ADD com3prof VARCHAR(200);
+ALTER TABLE reflexion ADD note4prof INT;
+ALTER TABLE reflexion ADD com4prof VARCHAR(200);
+ALTER TABLE reflexion ADD note5prof INT;
+ALTER TABLE reflexion ADD com5prof VARCHAR(200);

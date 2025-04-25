@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Élève</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="eleve.js" defer></script>
+    <script src="navigation.js" defer></script> 
+    <script src="script.js" defer></script> 
+</head>
+<body>
+    <header>
+        <nav class="menu_fichier">
+            <div class="left-group_fichier">
+                <a href="eleve.html" class="nav-link button_fichier">Carte Personnel</a>
+                <a href="fichier.html" class="nav-link button_fichier">Rendre un document</a>
+                <a href="carte_competence.html" class="nav-link button_fichier">carte des compétences</a>
+                <!-- Conteneur dropdown pour Auto-Evaluations -->
+                <div class="dropdown">
+                    <button class="button_fichier dropdown-button3">Auto-Evaluations</button>
+                    <ul class="dropdown-menu3" style="display: none;">
+                        <li><a href="simplexe_general.html" class="nav-link button_fichier">Simplexe Général</a></li>
+                        <li><a href="communication.html" class="nav-link button_fichier">Communication</a></li>
+                        <li><a href="resolution.html" class="nav-link button_fichier">Resolution</a></li>
+                        <li><a href="organisation.html" class="nav-link button_fichier">Organisation</a></li>
+                        <li><a href="reflexion.html" class="nav-link button_fichier">Reflexion</a></li>
+                        <li><a href="recul.html" class="nav-link button_fichier">Recul</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-group1">
+                <span id="identifiant-affiche"></span> 
+                <a href="connexion.html" class=" button_fichier">deconnexion</a>
+            </div>
+        </nav>
+    </header>

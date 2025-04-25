@@ -1,0 +1,12 @@
+idée web
+
+soit un menu avec les elève ou un menu avec les auto-évaluation
+
+
+
+tache a faire:
+MCD 
+page de connexion 1 (rajouter l'option creation de compte)
+page de connexion 2 (creation de compte avec nom prenom identifiant mot de passe (carte d'identité numérique)
+page de connexion 3 on reviens sur la page 1 seulement les info de la carte d'identité numerique doivent etre dans la base de donné 
+tache bonus , pouvoir se connecter ou nom en fonction de si les infos sont dans la base de données et afficher le nom et le prenom sur la page d'acceuille du site ( de l"leve qui se sera connecter Ducoup)

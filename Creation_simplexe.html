@@ -1,0 +1,78 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modification des Catégories</title>
+    <link rel="stylesheet" href="styless.css">
+</head>
+<body>    
+    <header>
+        <nav class="menu_fichier">
+            <div class="left-group_fichier">
+                <a href="Carte_Personnel.html" class="nav-link button_fichier">Liste Elèves</a>
+                <a href="Creation_simplexe.html" class="nav-link button_fichier">Modification simplexe</a>
+            </div>
+            <div class="right-group1">
+                <span id="identifiant-affiche"></span> 
+                <a href="connexion.html" class="button_fichier">Déconnexion</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1>Modifier les Catégories</h1>
+    <div id="category-edit-container">
+        <label for="page-select">Sélectionner une page :</label>
+        <select id="page-select">
+            <option value="resolution.html">Resolution</option>
+            <option value="organisation.html">Organisation</option>
+            <option value="communication.html">Communication</option>
+            <option value="recul.html">Recul</option>
+            <option value="reflexion.html">Reflexion</option>
+        </select>
+        <br><br>
+        
+        <div id="categories-inputs">
+            <input type="text" id="cat-0" placeholder="Catégorie 1">
+            <input type="text" id="cat-1" placeholder="Catégorie 2">
+            <input type="text" id="cat-2" placeholder="Catégorie 3">
+            <input type="text" id="cat-3" placeholder="Catégorie 4">
+            <input type="text" id="cat-4" placeholder="Catégorie 5">
+        </div>
+        <br>
+        <button id="save-button">Valider</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const pageSelect = document.getElementById("page-select");
+    const saveButton = document.getElementById("save-button");
+
+    function loadCategories() {
+        const selectedPage = pageSelect.value;
+        const storedCategories = JSON.parse(localStorage.getItem(selectedPage));
+
+        for (let i = 0; i < 5; i++) {
+            const inputField = document.getElementById(`cat-${i}`);
+            inputField.value = storedCategories && storedCategories[i] ? storedCategories[i] : "";
+        }
+    }
+
+    saveButton.addEventListener("click", () => {
+        const selectedPage = pageSelect.value;
+        const newCategories = [];
+
+        for (let i = 0; i < 5; i++) {
+            newCategories.push(document.getElementById(`cat-${i}`).value);
+        }
+
+        localStorage.setItem(selectedPage, JSON.stringify(newCategories));
+        alert(`Catégories mises à jour pour ${selectedPage}`);
+    });
+
+    pageSelect.addEventListener("change", loadCategories);
+    loadCategories(); // Charger les catégories initialement pour la page sélectionnée par défaut
+});
+
+    </script>
+</body>
+</html>

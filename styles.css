@@ -1,0 +1,814 @@
+/* Contenu du CSS dominant (premier fichier) */
+
+.menu_fichier {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(218, 218, 177);
+    
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.left-group_fichier {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espace entre les éléments */
+}
+
+.button_fichier {
+    background-color: rgb(218, 218, 177); /* Jaune */
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button_fichier:hover {
+    background-color: #c0c078; /* Jaune plus foncé */
+}
+
+
+.dropdown-button3 {
+    background-color: rgb(218, 218, 177);
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none; /* Enlever les bordures noires */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-button3:hover {
+    background-color: #c0c078;
+}
+
+
+
+
+.right-group1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+
+/* Style général du body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #87CEFA, #4682B4); /* Dégradé bleu */
+    color: white;
+}
+
+/* Menu */
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(218, 218, 177);
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-group,
+.right-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+.user-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+
+
+/* Dropdown Menu 3 amélioré et compact */
+.dropdown-menu3 {
+    position: absolute;
+    background-color: #ffffff;
+    color: #333;
+    list-style: none;
+    padding: 5px;  /* Réduction du padding pour rendre le menu plus compact */
+    border-radius: 5px;  /* Bordure arrondie plus petite */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+    min-width: 120px;  /* Réduction de la largeur minimale */
+}
+
+.dropdown:hover .dropdown-menu3 {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Liste des éléments du menu */
+.dropdown-menu3 li {
+    padding: 0.5rem 1rem;  /* Réduction du padding pour compacter davantage */
+    font-size: 0.9rem;  /* Réduction de la taille du texte pour le rendre plus petit */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu3 li:hover {
+    background-color: #c0c078;
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Pour l'icône ou le texte */
+.dropdown-menu3 li a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu3 li a:hover {
+    color: white;
+}
+
+/* Apparence du bouton parent */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    /* Suppression du padding et marge superflus ici */
+}
+
+/* Animation au survol du bouton */
+.dropdown-button {
+    position: relative;
+    padding: 0.5rem 0.8rem;  /* Réduction du padding du bouton */
+    font-size: 0.9rem;  /* Réduction de la taille du texte */
+    transition: transform 0.3s ease;
+}
+
+.dropdown-button:hover {
+    transform: scale(1.05);  /* Réduction de l'effet de mise en valeur */
+}
+
+
+
+/* Image container */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+    margin: 0;
+    padding: 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styling */
+.button {
+    text-decoration: none;
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+/* Form styling */
+form#userForm {
+    width: 100%; /* Utiliser toute la largeur disponible */
+    max-width: 1000px; /* Si tu veux garder une limite */
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+    position: relative;
+}
+
+form#userForm::before {
+    content: "Carte d'Identité";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 0 15px;
+    font-size: 1.5rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-group label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.form-group input {
+    flex: 3;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.form-group input[readonly] {
+    background-color: #eaeaea;
+}
+
+.form-group button {
+    flex: 1;
+    padding: 10px 15px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-actions button[type="submit"] {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Main container styling */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f9f9f9;
+}
+/* Variables CSS pour les couleurs et autres valeurs */
+:root {
+    --primary-color: #4CAF50; /* Couleur principale */
+    --secondary-color: #2a9d8f; /* Couleur secondaire */
+    --accent-color: #e76f51; /* Couleur d'accent */
+    --neutral-light: #f1f1f1;
+    --neutral-dark: #333333;
+    --border-radius: 8px;
+    --transition-duration: 0.3s;
+}
+
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Axis and shapes */
+.axis path,
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.point {
+    fill: steelblue;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+.central-point {
+    fill: red;
+    stroke: white;
+    stroke-width: 2px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.dashed {
+    fill: none;
+    stroke: black;
+    stroke-width: 1;
+    stroke-dasharray: 5, 5;
+}
+
+.draggable-point {
+    fill: blue;
+    cursor: pointer;
+}
+
+.pentagon-shape {
+    stroke: blue;
+    stroke-width: 2;
+}
+
+.pentagon-shape2 {
+    stroke: green;  /* Bordure verte */
+    stroke-width: 2;  /* Largeur de la bordure */
+}
+
+
+.line {
+    stroke: black;
+}
+
+/* Container for various elements */
+.container {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Categories container adjusted to 2 columns */
+.categories-container {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    gap: 72px; /* Augmente l'espace entre les containers */
+    justify-content: flex-start; /* Les éléments commencent à gauche */
+    margin-top: 30px;
+}
+
+/* Chaque groupe de catégories prendra 48% de la largeur de son conteneur parent, on augmente cela à 50% */
+.category-group {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    min-width: 300px; /* Augmenter la largeur minimale */
+    max-width: 60%;   /* Élargir les containers à 60% de la largeur du parent */
+    height: auto;     /* Pour permettre à la hauteur de s'ajuster */
+    padding: 30px;    /* Ajouter du padding pour donner de l'espace interne */
+}
+
+/* Pour les containers de type catégorie, augmenter la largeur pour qu'ils prennent plus de place */
+.category-group {
+    max-width: 100%; /* Passe à 48% ou 49% pour plus d'espace, mais pas 100% */
+}
+
+#category-group-1 {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+#category-group-2 {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+#category-group-3 {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+/* Chaque boîte d'évaluation (celle contenant les zones de texte) */
+.evaluation-item {
+    background-color: #65a1e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;    /* Ajouter plus de padding pour agrandir l'espace interne */
+    height: auto;     /* Laisser la hauteur s'ajuster */
+}
+
+/* Effet au survol de la boîte */
+.evaluation-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.evaluation-item h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.evaluation-item .sub-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.evaluation-item select {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.evaluation-item input {
+    margin-top: 10px;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+
+
+#prof-button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Supprime le soulignement */
+}
+
+#prof-button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+
+#eleve-button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#eleve-button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+
+
+#validateButton {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 24px;
+    background-color: rgb(218, 218, 177);  /* Modifier ici */
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+    z-index: 1000;
+}
+
+#validateButton:hover {
+    background-color: #c0c078;
+    transform: translateY(-3px);
+}
+
+
+/* CSS final - Ce qui est unique au deuxième fichier */
+
+/* Nav-bar1 */
+.nav-bar1 {
+    width: 100%;
+    background-color: #f8d7da;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar1 img {
+    height: 100px;
+}
+
+.nav-bar1 h1 {
+    font-size: 2.5em;
+    color: #2c1b3b;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+/* Login box */
+.login-box1 {
+    background-color: #eef3c6;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    height: 400px;
+}
+
+.user-icon1 img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+/* Role selector */
+.role-selector1 {
+    margin-bottom: 20px;
+}
+
+.role-selector1 label {
+    margin: 0 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Input group */
+.input-group1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 45px;
+}
+
+.input-group1 img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.input-group1 input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Login button */
+.login-btn1 {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 10px 100px;
+    border-radius: 45px;
+    cursor: pointer;
+    font-size: 2em;
+}
+
+.login-btn1:hover {
+    background-color: #8518d2;
+}
+
+/* Container for login */
+.container1 {
+    text-align: center;
+    margin-top: 70px;
+}
+
+/* Form style */
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Pour aligner les onglets à gauche */
+    padding: 10px;
+    margin-top: -70px; /* Décalage sous le menu */
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    margin-right: 10px; /* Ajout d'un espacement entre les onglets */
+}
+
+.tab-button.active {
+    background-color: #aaa;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+
+
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.dropdown-menu li {
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.dropdown-menu li:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+
+
+.simplexe-container {
+    width: 50%; /* Réduction de la largeur à 50% de l'élément parent */
+    text-align: center;
+    margin: 20px auto; /* Centrage horizontal */
+}
+
+
+
+
+#prof-button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Supprime le soulignement */
+}
+
+#prof-button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+
+#eleve-button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#eleve-button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+
+
+
+.note-display {
+    display: inline-block;
+    font-size: 1em;
+    font-weight: normal;
+    color: #333;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 12px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    min-width: 40px;
+}
+
+
+/* Styliser les selects désactivés pour qu'ils ne soient pas opaques */
+select:disabled {
+    background-color: white;  /* Couleur de fond normale */
+    color: black;  /* Couleur du texte */
+    opacity: 1;  /* Rendre l'élément complètement visible */
+    pointer-events: none;  /* Désactiver les événements de souris (pour éviter toute interaction) */
+    border: 1px solid #ccc;  /* Bordure légère pour un aspect similaire à un select normal */
+}
+
+
+input[disabled] {
+    pointer-events: none;  /* Empêche l'interaction */
+    background-color: inherit;
+    color: inherit;
+    opacity: 1;
+    border: none;
+  }
+
+
+
+/* Zone de texte input (comme un champ de texte) */
+input[type="text"] {
+    width: 100%;      /* Occupe toute la largeur du container parent */
+    min-height: 2.5em; /* Augmenter la hauteur minimale */
+    font-size: 1.2em;  /* Augmenter la taille du texte */
+    padding: 0.8em;    /* Plus de padding pour un texte plus espacé */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 1em;
+    overflow: auto;    /* Permet d'ajouter une barre de défilement horizontale si nécessaire */
+}
+
+
+textarea {
+    width: 100%;        /* Occupe toute la largeur du container parent */
+    height: 15em;       /* Augmente la hauteur de la zone de texte (tu peux ajuster selon tes besoins) */
+    font-size: 1em;     /* Taille de la police à 1em (tu peux l'ajuster si tu veux que le texte soit plus grand) */
+    padding: 1em;       /* Plus d'espace interne */
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 1em;
+    resize: vertical;   /* Permet de redimensionner verticalement seulement */
+    overflow-y: auto;   /* Ajouter une barre de défilement verticale si nécessaire */
+    word-wrap: break-word; /* Retour à la ligne automatique */
+    min-height: 15em;    /* Hauteur minimale pour la zone de texte */
+}

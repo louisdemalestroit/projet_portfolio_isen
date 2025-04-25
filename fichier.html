@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déposer un Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Scripts -->
+    <script type="module" src="upload.js"></script>
+    <script src="navigation.js" defer></script> 
+    <script src="script.js" defer></script> 
+</head>
+<body>
+    <header>
+        <nav class="menu_fichier">
+            <div class="left-group_fichier">
+                <a href="eleve.html" class="nav-link button_fichier">Carte Personnel</a>
+                <a href="fichier.html" class="nav-link button_fichier">Rendre un document</a>
+                <a href="carte_competence.html" class="nav-link button_fichier">Carte des compétences</a>
+            </div>
+            <div class="right-group1">
+                <span id="identifiant-affiche"></span> 
+                <a href="connexion.html" class="button_fichier">Déconnexion</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Déposer un document</h1>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <label for="fileInput">Choisir un fichier :</label>
+            <input type="file" id="fileInput" name="file" required>
+            <p id="fileNameDisplay" style="display: none; color: blue; font-weight: bold;"></p>
+            <button type="submit" class="button">Déposer le fichier</button>
+        </form>
+
+        <h2>Vos fichiers déposés</h2>
+        <ul id="uploadedFilesList"></ul>
+    </div>
+</body>
+</html>

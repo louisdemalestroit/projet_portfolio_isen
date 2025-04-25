@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Personnel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <div class="left-group">
+                <a href="Carte_Personnel.html" class="nav-link button_fichier">Liste Elèves</a>
+                <a href="Creation_simplexe.html" class="nav-link button_fichier">Modification simplexe</a>
+                
+            </div>
+            <div class="right-group">
+                <span class="user-name">Jahan Pierre</span>
+                <a href="connexion.html" class="button">Deconnection</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <form id="selectionForm">
+            <div class="eleve-list" id="eleveList"></div>
+            <button id="selectionButton" type="button">Sélectionner</button>
+        </form>
+    </main>
+    
+    <script src="Requete.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

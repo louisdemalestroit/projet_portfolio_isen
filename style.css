@@ -1,0 +1,702 @@
+
+
+
+.nav-bar1 {
+    width: 100%;
+    background-color: #f8d7da;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar1 img {
+    height: 100px;
+}
+
+.nav-bar1 h1 {
+    font-size: 2.5em;
+    color: #2c1b3b;
+    font-family: 'Poppins', sans-serif; /* Ajout d'une police moderne */
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2); /* Effet d'ombre */
+    margin: 0 auto; /* Centrer horizontalement */
+}
+
+.container1 {
+    text-align: center;
+    margin-top: 70px; /* Pour compenser la nav-bar */
+}
+
+.logo1 h1 {
+    font-size: 2em;
+    color: #ff6600;
+}
+
+.login-box1 {
+    background-color: #eef3c6;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    height: 400px;
+}
+
+.user-icon1 img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.role-selector1 {
+    margin-bottom: 20px;
+}
+
+.role-selector1 label {
+    margin: 0 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.input-group1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.input-group1 img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* Espace entre l'icône et le champ */
+}
+
+.input-group1 input {
+    flex: 1; /* Le champ prend tout l'espace restant */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.login-btn1 {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 10px 100px;
+    border-radius: 45px;
+    cursor: pointer;
+    font-size: 2em;
+}
+
+.login-btn1:hover {
+    background-color: #8518d2;
+}
+
+/* pieeeere*/
+/* Styles généraux pour la page */
+.body1 {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/* Menu */
+.menu1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(218, 218, 177);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-group1,
+.right-group1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu1 button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu1 button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+.container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centrer le formulaire verticalement */
+    padding: 20px;
+}
+/* pieeeere*/
+/* Styles généraux pour la page */
+.body2 {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/* Menu */
+.menu2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(218, 218, 177);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-group2,
+.right-group2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu2 button {
+    background-color: rgb(218, 218, 177);
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu2 button:hover {
+    background-color: #c0c078;
+    color: white;
+}
+
+/* Formulaire */
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centrer le formulaire verticalement */
+    padding: 20px;
+}
+
+.creation-form2 {
+    background-color: #eef3c6; /* Couleur jaune */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px; /* Limiter la largeur du formulaire */
+}
+.input-group2 {
+    margin-bottom: 15px;
+}
+
+.input-group2 input {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.login-btn2 {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.login-btn2:hover {
+    background-color: #8518d2;
+}
+
+/* Style pour le conteneur du formulaire */
+.container1_eleve {
+    margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00bcd4; /* Contour bleu cyan */
+    background-color: #e0f7fa;
+}
+
+/* Style pour le titre */
+.container1_eleve h2 {
+    text-align: center; /* Centrer le titre */
+    color: #333;
+    margin-bottom: 20px; /* Ajouter un espace sous le titre */
+}
+
+/* Formulaire */
+#info-eleve-form {
+    display: flex;
+    flex-direction: column; /* Disposition des éléments en colonne */
+    gap: 10px; /* Espace de 10px entre les éléments */
+}
+
+/* Style des groupes d'inputs */
+.input-group1_eleve {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacement entre le label et l'input */
+}
+
+/* Style des labels */
+.input-group1_eleve label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Style des inputs */
+.input-group1_eleve input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box; /* Cela inclut le padding dans la largeur totale */
+}
+
+/* Couleur pour les inputs désactivés */
+.input-group1_eleve input:disabled {
+    background-color: #e0e0e0;
+}
+.textarea-container {
+    position: relative; /* Positionner le conteneur relativement pour positionner le compteur */
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding-right: 50px; /* Ajouter de l'espace à droite pour le compteur */
+    box-sizing: border-box;
+}
+
+#charCount {
+    position: absolute; /* Positionnement absolu à l'intérieur du conteneur */
+    bottom: 5px; /* Distance du bas de la textarea */
+    right: 10px; /* Distance du côté droit de la textarea */
+    font-size: 12px;
+    color: #888; /* Couleur grise pour le texte du compteur */
+}
+.button_fichier {
+    background-color: rgb(218, 218, 177); /* Jaune */
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button_fichier:hover {
+    background-color: #c0c078; /* Jaune plus foncé */
+}
+
+/* Menu */
+.menu_fichier {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(218, 218, 177);
+    
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* S'assurer que les boutons restent alignés */
+.left-group_fichier {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espace entre les éléments */
+}
+
+/* Menu déroulant */
+.dropdown {
+    position: relative;
+}
+
+/* Corriger la taille et la disposition du bouton "Auto-Evaluations" */
+.dropdown-button3 {
+    background-color: rgb(218, 218, 177); /* Jaune */
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-button3:hover {
+    background-color: #c0c078;
+}
+
+/* Ajuster le menu déroulant */
+.dropdown-menu3 {
+    position: absolute;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 100%;
+    left: 0;
+    min-width: 200px; /* Ajuste la largeur */
+    background-color: rgb(218, 218, 177);
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.dropdown-menu3 li {
+    width: 100%;
+}
+
+.dropdown-menu3 li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.dropdown-menu3 li a:hover {
+    background-color: #c0c078;
+}
+#competenceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.competence {
+    background: linear-gradient(to left, #6a7fd0, #4c5d96, #3b4b7f);
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.delete-button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+#charteContainer {
+    width: 80%;
+    height: 350px;
+    margin: 20px auto;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(to right, violet, blue);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 10px;
+    position: relative;
+}
+#competenceContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px; /* pour séparer du bas */
+}
+
+.competence {
+    background: rgb(232, 148, 148);
+    padding: 10px;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    width: fit-content;
+    min-width: 100px; /* Ajouté pour éviter que les compétences deviennent trop petites */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère pour mieux voir */
+    z-index: 1000;
+}
+.delete-button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background: darkred;
+}
+.description-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+.competence.selected {
+    background-color: yellow; /* Couleur de surbrillance */
+    border: 2px solid orange;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.7);
+}
+/* Style général */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #87CEFA, #4682B4); /* Bleu clair */
+    color: white;
+}
+
+/* Navigation */
+.menu_fichier {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background:rgb(218, 218, 177); /* Jaune */
+    padding: 15px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.left-group_fichier, .right-group1 {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-button3 {
+    background: transparent;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.dropdown-button3:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu3 {
+    background-color: rgb(218, 218, 177); /* Jaune */
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu3 {
+    display: block;
+}
+
+/* Contenu principal */
+.container {
+    max-width: 800px; /* Agrandissement de la zone */
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Formulaire */
+input[type="file"] {
+    background: white;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    width: 90%;
+    margin-top: 15px;
+}
+
+.button {
+    background: rgb(218, 218, 177); /* Jaune */ 
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 15px;
+}
+
+.button:hover {
+    background: #e68900;
+}
+
+/* Liste des fichiers */
+#uploadedFilesList {
+    list-style: none;
+    padding: 0;
+}
+
+#uploadedFilesList li {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+}
+
+/* Ajout d'un espace entre les éléments pour éviter le vide */
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+#identifiant-affiche {
+    color: black;
+}
+
+span[id^="charCount-"] {
+    color: black;
+}
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+
+
+
+#competenceForm button[type="submit"] {
+    background-color: rgb(182, 224, 182);
+    color: white;
+    border-radius: 10px;
+    width: 150px;
+    height: 30px;
+}
+
+#supprimerCompetence {
+    background-color: rgb(221, 103, 103);
+    color: white;
+    
+    border-radius: 10px;
+    width: 150px;
+    height: 30px;
+}
+#suppr_la_comp{
+    padding: 30px;
+    text-align: center;
+}
+/* Barre de succès */
+.success-bar {
+    display: none; /* Cachée par défaut */
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease-in-out;
+}
+
+.delete-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Centrer le tableau */
+#tableContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style pour le tableau */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Bordure simple */
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc; /* Bordure simple entre les cellules */
+}
+
+th {
+    background-color: #f1f1f1; /* Légère couleur de fond pour les entêtes */
+    color: #333; /* Couleur du texte des entêtes */
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff; /* Fond blanc pour les cellules */
+    color: #333; /* Couleur du texte */
+}
+
+/* Style pour l'icône de suppression */
+.delete-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

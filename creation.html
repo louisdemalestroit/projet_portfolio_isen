@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Compte</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="creation.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav class="menu2">
+            <div class="left-group2">
+                <button class="button2">Carte Personnel</button>
+                <button class="button2">Rendre un document</button>
+                <div class="dropdown2">
+                    <button class="dropdown-button2">Auto-Evaluations</button>
+                </div>
+            </div>
+            <div class="right-group2">
+
+                
+                 
+                <a href="connexion.html" class="button_fichier" style="color: black;">Connexion</a>
+            </div>
+        </nav>
+    </header>
+  
+    <main class="container2">
+        <form id="creation-Form2" class="creation-form2">
+            <div class="input-group2">
+                <label for="prenom" style="color: black;">Prénom:</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            <div class="input-group2">
+                <label for="nom" style="color: black;">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="input-group2">
+                <label for="iddentifiant" style="color: black;">Identifiant:</label>
+                <input type="text" id="iddentifiant" name="iddentifiant" required>
+            </div>
+            <div class="input-group2">
+                <label for="mot_de_passe" style="color: black;">Mot de passe:</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+            </div>
+            
+            <div class="input-group2">
+                <label style="color: black;">Type de compte:</label>
+                <input type="radio" id="etudiant" name="statut" value="etudiant" checked>
+                <label for="etudiant"style="color: black;">Étudiant</label>
+                <input type="radio" id="admin" name="statut" value="admin">
+                <label for="admin"style="color: black;">Admin</label>
+            </div>
+            
+            <div class="input-group2" id="master-password-group" style="display: none;">
+                <label for="master_password" style="color: black;">Master Password:</label>
+                <input type="password" id="master_password" name="master_password">
+            </div>
+            
+            <button type="submit" class="login-btn2">Créer le compte</button>
+        </form>
+    </main>
+</body>
+</html>

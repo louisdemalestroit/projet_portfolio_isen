@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Web avec Formulaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+    <script src="Requete.js"></script>
+    <script src="navigation.js" defer></script>
+    <script src="carte_competence_prof.js"defer></script>
+</head>   
+<body>
+    <header>
+        <nav class="menu">
+            <div class="left-group">
+                <a href="Carte_Personnel.html" class="nav-link button_fichier">Liste Elèves</a>
+                <a href="Dossiers.html" class="nav-link button_fichier">Document rendu</a>
+                <a href="Simplexe_prof.html" class="nav-link button_fichier">Simplexe</a>
+                <a href="bilan_prof.html" class="nav-link button_fichier">bilan</a>
+            </div>  
+            <div class="right-group">
+                <span class="user-name">Jahan Pierre</span>
+                <a href="connexion.html" class="button">Deconnection</a>
+            </div>
+            <div class="right-group1">
+                <span id="identifiant-affiche"></span> 
+                <a href="connexion.html" class=" button_fichier">deconnexion</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1>Carte des Compétences</h1>
+    
+    <!-- Zone où seront affichées les compétences -->
+    <div id="competenceContainer"></div>
+    <div id="charteContainer">
+        
+    </div>
+
+</body>
+</html>
