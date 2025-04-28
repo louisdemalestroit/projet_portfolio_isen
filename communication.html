@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simplexe Interactif</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Style/styles.css">
 </head>
 <body>
     <header>
@@ -14,7 +14,6 @@
                 <a href="eleve.html" class="nav-link button_fichier">Carte Personnel</a>
                 <a href="fichier.html" class="nav-link button_fichier">Rendre un document</a>
                 <a href="carte_competence.html" class="nav-link button_fichier">Carte des compétences</a>
-                <!-- Conteneur dropdown pour Auto-Evaluations -->
                 <div class="dropdown">
                     <button class="button_fichier dropdown-button3">Auto-Evaluations</button>
                     <ul class="dropdown-menu3" style="display: none;">
@@ -39,63 +38,65 @@
             <svg width="600" height="600"></svg>
         </div>
 
-        <!-- Onglets -->
         <div class="tabs">
             <button class="tab-button active" data-target="eleve">Élève</button>
-            <a href="notation_eleve.html" class="tab-button" id="prof-button">Prof</a> <!-- Lien vers la page Professeur -->
+            <a href="notation_eleve.html" class="tab-button" id="prof-button">Prof</a>
         </div>
 
-        <!-- Contenus des onglets -->
         <div id="eleve" class="tab-content active"></div>
         <div id="prof" class="tab-content">Rien</div>
         <div class="categories-container"></div>
-
     </div>
-    
+
     <button id="validateButton">Valider</button>
 
     <script>
-        let angleStep;  // Déclare angleStep en dehors des fonctions
+        let angleStep;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const currentPage = "communication.html";  // Identifier la page actuelle
-    const categories = JSON.parse(localStorage.getItem(currentPage)) || ["Mathématiques", "Sciences", "Français", "Histoire", "Anglais"];
-    
-    // test
-    localStorage.setItem('categories', JSON.stringify(categories));
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPage = "communication.html";
+            const categories = JSON.parse(localStorage.getItem(currentPage)) || ["Mathématiques", "Sciences", "Français", "Histoire", "Anglais"];
 
-    const categoriesContainer = document.querySelector(".categories-container");
+            localStorage.setItem('categories', JSON.stringify(categories));
 
-    // Générer les catégories dans l'interface utilisateur
-    categories.forEach((category, index) => {
-    const div = document.createElement("div");
-    div.classList.add("evaluation-item");
-    div.innerHTML = `
-        <h3>${category}</h3>
-        <div class="sub-title">Notes</div>
-        <select  id="category-${index}" >
-            ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
-        </select>
-        <div class="sub-title">Commentaire</div>
-        <textarea id="textInput-${index}" placeholder="Modifiez ici"></textarea>
-    `;
-    categoriesContainer.appendChild(div);
-});
-    // Mettre à jour le graphique Simplexe
-    updateGraph(categories);
-});
+            const categoriesContainer = document.querySelector(".categories-container");
 
-const width = 300;
-const height = 300;
-const radius = 100;
-const centerX = width /2;
-const centerY = height / 2;
-let userPoints = new Array(5).fill(null);  // Tableau des points utilisateur
+            categories.forEach((category, index) => {
+                const div = document.createElement("div");
+                div.classList.add("evaluation-item");
+                div.innerHTML = `
+                    <h3 class="comment-title">${category}</h3>
+                    <div class="sub-title">Notes</div>
+                    <select id="category-${index}">
+                        ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
+                    </select>
+                    <div class="sub-title">Commentaire</div>
+                    <textarea id="textInput-${index}" placeholder="Modifiez ici"></textarea>
+                `;
+                categoriesContainer.appendChild(div);
 
-const svg = d3.select("svg").attr("width", width).attr("height", height);
+                const select = div.querySelector(`#category-${index}`);
+                select.addEventListener("change", (e) => {
+                    updatePoint(index, e.target.value);
+                });
 
-// Fonction pour mettre à jour le graphique Simplexe avec les catégories
-function updateGraph(categories) {
+                // Initialiser avec la première valeur sélectionnée
+                updatePoint(index, select.value);
+            });
+
+            updateGraph(categories);
+        });
+
+        const width = 300;
+        const height = 300;
+        const radius = 100;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        let userPoints = new Array(5).fill(null);
+
+        const svg = d3.select("svg").attr("width", width).attr("height", height);
+
+        function updateGraph(categories) {
     // Calculer angleStep ici
     angleStep = (2 * Math.PI) / categories.length;  // Déplace ici
 
@@ -123,13 +124,38 @@ function updateGraph(categories) {
 
     // Ajouter les labels des catégories
     svg.selectAll(".label")
-        .data(pentagonPoints)
-        .enter().append("text")
-        .attr("x", d => d.x + (d.x - centerX) * 0.25)
-        .attr("y", d => d.y + (d.y - centerY) * 0.25)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .text(d => d.category);
+  .data(pentagonPoints)
+  .enter()
+  .append("text")
+  .attr("class", "category-label")
+  .attr("x", d => d.x + (d.x - centerX) * 0.4)
+  .attr("y", d => d.y + (d.y - centerY) * 0.4 - 3)
+  .attr("text-anchor", "middle")
+  .attr("font-size", "8px")
+  .each(function(d) {
+    const maxCharsPerLine = 20;
+    const words = d.category.split(" ");
+    let line = "";
+    let lines = [];
+    
+    words.forEach(word => {
+      if ((line + word).length <= maxCharsPerLine) {
+        line += (line ? " " : "") + word;
+      } else {
+        lines.push(line);
+        line = word;
+      }
+    });
+    lines.push(line);
+
+    lines.forEach((l, i) => {
+      d3.select(this).append("tspan")
+        .attr("x", d.x + (d.x - centerX) * 0.25)
+        .attr("dy", i === 0 ? 0 : "14") // saut de ligne
+        .text(l);
+    });
+  });
+
 
     // Dessiner les cercles représentant les niveaux
     for (let i = 1; i <= 10; i++) {
@@ -144,61 +170,57 @@ function updateGraph(categories) {
     }
 }
 
-function updatePoint(index, value) {
-    const level = parseInt(value);
-    const angle = index * angleStep;
-    const r = (radius / 10) * level;
-    const x = centerX + r * Math.cos(angle);
-    const y = centerY + r * Math.sin(angle);
+        function updatePoint(index, value) {
+            const level = parseInt(value);
+            const angle = index * angleStep;
+            const r = (radius / 10) * level;
+            const x = centerX + r * Math.cos(angle);
+            const y = centerY + r * Math.sin(angle);
 
-    svg.selectAll(`.point-${index}`).remove();
-    svg.append("circle")
-        .attr("class", `point-${index}`)
-        .attr("cx", x)
-        .attr("cy", y)
-        .attr("r", 6)
-        .attr("fill", "blue");
+            svg.selectAll(`.point-${index}`).remove();
+            svg.append("circle")
+                .attr("class", `point-${index}`)
+                .attr("cx", x)
+                .attr("cy", y)
+                .attr("r", 6)
+                .attr("fill", "blue");
 
-    userPoints[index] = { x, y };
-    updatePentagon();
-}
+            userPoints[index] = { x, y };
+            updatePentagon();
+        }
 
-function updatePentagon() {
-    if (userPoints.every(point => point !== null)) {
-        svg.select(".pentagon-shape").remove();
-        svg.append("polygon")
-            .attr("class", "pentagon-shape")
-            .attr("points", userPoints.map(d => `${d.x},${d.y}`).join(" "))
-            .attr("fill", "none")
-            .attr("stroke", "blue");
-    }
-}
+        function updatePentagon() {
+            if (userPoints.every(point => point !== null)) {
+                svg.select(".pentagon-shape").remove();
+                svg.append("polygon")
+                    .attr("class", "pentagon-shape")
+                    .attr("points", userPoints.map(d => `${d.x},${d.y}`).join(" "))
+                    .attr("fill", "none")
+                    .attr("stroke", "blue");
+            }
+        }
 
-
-    // Récupérer les paramètres de l'URL actuelle
-    function getUrlParameter(name) {
+        function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // Ajouter les paramètres à l'URL quand on clique sur le bouton Prof
         document.getElementById("prof-button").addEventListener("click", (event) => {
-            const prenom = getUrlParameter("prenom");  // Récupérer le prénom
-            const nom = getUrlParameter("nom");        // Récupérer le nom
-            const identifiant = getUrlParameter("identifiant");  // Récupérer l'identifiant
-            
+            const prenom = getUrlParameter("prenom");
+            const nom = getUrlParameter("nom");
+            const identifiant = getUrlParameter("identifiant");
+
             if (prenom && nom && identifiant) {
                 const currentUrl = event.target.href;
                 const newUrl = new URL(currentUrl);
-                newUrl.searchParams.set("prenom", prenom);  // Ajouter le prénom à l'URL
-                newUrl.searchParams.set("nom", nom);        // Ajouter le nom à l'URL
-                newUrl.searchParams.set("identifiant", identifiant); // Ajouter l'identifiant à l'URL
-                newUrl.searchParams.set("page", "communication"); // Ajout de "reflexion" dans l'URL
-                event.target.href = newUrl.toString(); // Mettre à jour le lien
+                newUrl.searchParams.set("prenom", prenom);
+                newUrl.searchParams.set("nom", nom);
+                newUrl.searchParams.set("identifiant", identifiant);
+                newUrl.searchParams.set("page", "communication");
+                event.target.href = newUrl.toString();
             }
         });
 
-        // Gestion des onglets
         const tabButtons = document.querySelectorAll(".tab-button");
         const tabContents = document.querySelectorAll(".tab-content");
 
@@ -211,20 +233,14 @@ function updatePentagon() {
                 document.getElementById(button.dataset.target).classList.add("active");
 
                 if (button.dataset.target === "prof") {
-                    // Lorsque l'onglet "Professeur" est sélectionné, afficher "Rien"
                     document.getElementById("prof").innerText = "Rien";
                 } else {
-                    // Lorsque l'onglet "Élève" est sélectionné, afficher les catégories et notes
                     document.getElementById("eleve").innerText = "";
                 }
             });
         });
-
-
-
-
     </script>
-    <script src="Simplexe_prof.js"></script>
+
     <script src="simplexe.js"></script>
     <script src="script.js"></script>
     <script src="navigation.js" defer></script>
