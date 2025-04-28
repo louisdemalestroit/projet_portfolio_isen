@@ -2,16 +2,15 @@
 header("Content-Type: application/json");
 
 // Informations de connexion à la base de données
-$host = "dpg-d07jpbhr0fns738kroq0-a";  // Le host de ta base de données Render
-$port = "5432";  // Le port de PostgreSQL
-$dbname = "iddentite";  // Le nom de la base de données
-$user = "iddentite_user";  // L'utilisateur de la base de données
-$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
+$host = 'localhost';
+$dbname = 'iddentite';
+$username = 'postgres';
+$password = 'isen44';
 
 try {
     // Connexion à la base de données
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Lire les données JSON envoyées dans la requête POST
     $data = json_decode(file_get_contents('php://input'), true);
@@ -29,7 +28,7 @@ try {
         }
 
         // Chercher l'id correspondant à l'identifiant dans la table utilisateurs
-        $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE iddentifiant = :iddentifiant");
+        $stmt = $db->prepare("SELECT id FROM utilisateurs WHERE iddentifiant = :iddentifiant");
         $stmt->execute([':iddentifiant' => $iddentifiant]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -50,7 +49,7 @@ try {
                 $moyennes = [];
 
                 foreach ($tables as $index => $table) {
-                    $query = $pdo->prepare("SELECT CEIL((note1prof + note2prof + note3prof + note4prof + note5prof) / 5.0) AS moyenne FROM $table WHERE utilisateur_id = :user_id");
+                    $query = $db->prepare("SELECT CEIL((note1prof + note2prof + note3prof + note4prof + note5prof) / 5.0) AS moyenne FROM $table WHERE utilisateur_id = :user_id");
                     $query->execute([':user_id' => $user_id]);
                     $result = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -62,7 +61,7 @@ try {
                 }
 
                 // Récupérer les commentaires depuis la table simplexe
-                $commentsQuery = $pdo->prepare("SELECT com1prof, com2prof, com3prof, com4prof, com5prof FROM simplexe WHERE utilisateur_id = :user_id");
+                $commentsQuery = $db->prepare("SELECT com1prof, com2prof, com3prof, com4prof, com5prof FROM simplexe WHERE utilisateur_id = :user_id");
                 $commentsQuery->execute([':user_id' => $user_id]);
                 $commentsResult = $commentsQuery->fetch(PDO::FETCH_ASSOC);
 
@@ -97,7 +96,7 @@ try {
             
         } else {
             // Vérifier que la table existe avant d'exécuter la requête
-            $tableCheck = $pdo->prepare("SELECT to_regclass(:tableName) AS table_exists");
+            $tableCheck = $db->prepare("SELECT to_regclass(:tableName) AS table_exists");
             $tableCheck->execute([':tableName' => $pageNameWithoutExtension]);
             $tableExists = $tableCheck->fetch(PDO::FETCH_ASSOC)['table_exists'];
 
@@ -107,7 +106,7 @@ try {
             }
 
             // Récupérer les données de la table avec le même nom que la page
-            $query = $pdo->prepare("SELECT * FROM $pageNameWithoutExtension WHERE utilisateur_id = :user_id");
+            $query = $db->prepare("SELECT * FROM $pageNameWithoutExtension WHERE utilisateur_id = :user_id");
             $query->execute([':user_id' => $user_id]);
 
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
