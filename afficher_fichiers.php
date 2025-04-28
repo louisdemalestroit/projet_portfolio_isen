@@ -12,10 +12,11 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$host = "localhost"; 
-$dbname = "iddentite"; 
-$user = "postgres"; 
-$password = "root"; 
+$host = "dpg-d07jpbhr0fns738kroq0-a";  // Le host de ta base de données Render
+$port = "5432";  // Le port de PostgreSQL
+$dbname = "iddentite";  // Le nom de la base de données
+$user = "iddentite_user";  // L'utilisateur de la base de données
+$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
 
 try {
     $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
