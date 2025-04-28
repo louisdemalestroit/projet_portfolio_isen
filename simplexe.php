@@ -7,7 +7,7 @@ $user = "iddentite_user";  // L'utilisateur de la base de données
 $password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
 try {
     // Connexion à la base de données
-    $db = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer les données JSON envoyées par AJAX
