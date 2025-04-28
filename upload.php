@@ -8,28 +8,20 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require 'vendor/autoload.php';
+// --- Étape 1 : Vérifier si Composer est installé et exécuter l'installation des dépendances si nécessaire ---
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+    die(json_encode(["error" => "Dépendances manquantes. Exécutez Composer pour installer les dépendances."]));
+}
+
+// Charger l'autoloader de Composer
+require_once __DIR__ . '/vendor/autoload.php';
+
+// --- Étape 2 : Vérification de Cloudinary --- 
 use Cloudinary\Configuration\Configuration;
 use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Api\Exception\ApiError;
 
-// 🔹 Connexion à la base de données
-$host = "dpg-d07jpbhr0fns738kroq0-a";  // Host Render
-$port = "5432";  // Port PostgreSQL
-$dbname = "iddentite";  // Nom de la base
-$user = "iddentite_user";  // Utilisateur
-$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Mot de passe
-
-try {
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(["error" => "Connexion échouée : " . $e->getMessage()]);
-    exit;
-}
-
-// 🔹 Configuration Cloudinary
+// Configuration de Cloudinary
 Configuration::instance([
     'cloud' => [
         'cloud_name' => 'dugr7wpma',
@@ -38,11 +30,24 @@ Configuration::instance([
     ]
 ]);
 
-// 🔹 Gestion des requêtes
+// --- Étape 3 : Connexion à PostgreSQL --- 
+$host = "localhost";  // Remplacez par votre hôte de base de données
+$dbname = "iddentite"; // Nom de la base de données
+$user = "postgres"; // Utilisateur PostgreSQL
+$password = "root"; // Mot de passe de l'utilisateur PostgreSQL
+
+try {
+    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
+} catch (PDOException $e) {
+    die(json_encode(["error" => "Connexion échouée : " . $e->getMessage()]));
+}
+
+// --- Étape 4 : Traitement de la requête POST pour l'upload de fichier ---
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!isset($_FILES["file"]) || !isset($_POST["identifiant"])) {
-        echo json_encode(["error" => "Données manquantes."]);
-        exit;
+        die(json_encode(["error" => "Données manquantes."]));
     }
 
     $identifiant = $_POST["identifiant"];
@@ -50,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $originalFilename = pathinfo($_FILES["file"]["name"], PATHINFO_FILENAME);
     $fileExtension = pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION);
 
-    // Nettoyage du nom de fichier
+    // Nettoyer le nom de fichier
     $cleanedFilename = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $originalFilename);
     $publicId = $cleanedFilename . '.' . $fileExtension;
 
     try {
-        // Tentative d'upload vers Cloudinary
+        // Téléchargement du fichier sur Cloudinary
         $upload = (new UploadApi())->upload($fileTmpPath, [
             "folder" => "fichiers_eleves",
             "resource_type" => "auto",
@@ -64,39 +69,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "unique_filename" => false
         ]);
 
-        // Si l'upload a réussi, récupérer l'URL du fichier
         $fileUrl = $upload["url"];
 
-        // Sauvegarde de l'URL dans la base de données
+        // Sauvegarde de l'URL du fichier dans la base de données
         $stmt = $pdo->prepare("INSERT INTO fichier (iddentifiant, url) VALUES (?, ?)");
         $stmt->execute([$identifiant, $fileUrl]);
 
         echo json_encode(["success" => true, "fileUrl" => $fileUrl]);
     } catch (ApiError $e) {
-        // Capture de l'erreur Cloudinary
-        echo json_encode(["error" => "Erreur Cloudinary: " . $e->getMessage()]);
+        die(json_encode(["error" => "Erreur Cloudinary: " . $e->getMessage()]));
     }
     exit;
+}
 
-} elseif ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["identifiant"])) {
-    try {
-        $stmt = $pdo->prepare("SELECT url FROM fichier WHERE iddentifiant = ?");
-        $stmt->execute([$_GET["identifiant"]]);
-        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-    } catch (PDOException $e) {
-        echo json_encode(["error" => "Erreur de récupération des fichiers : " . $e->getMessage()]);
-    }
+// --- Étape 5 : Traitement de la requête GET pour récupérer un fichier ---
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["identifiant"])) {
+    $stmt = $pdo->prepare("SELECT url FROM fichier WHERE iddentifiant = ?");
+    $stmt->execute([$_GET["identifiant"]]);
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     exit;
+}
 
-} elseif ($_SERVER["REQUEST_METHOD"] === "DELETE") {
+// --- Étape 6 : Traitement de la requête DELETE pour supprimer un fichier ---
+if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data["url"])) {
-        echo json_encode(["error" => "URL du fichier manquante."]);
-        exit;
+        die(json_encode(["error" => "URL du fichier manquante."]));
     }
 
     try {
+        // Suppression du fichier de la base de données
         $stmt = $pdo->prepare("DELETE FROM fichier WHERE url = ?");
         $stmt->execute([$data["url"]]);
         echo json_encode(["success" => true, "message" => "Fichier supprimé"]);
@@ -104,8 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(["error" => "Erreur SQL: " . $e->getMessage()]);
     }
     exit;
-
-} else {
-    echo json_encode(["error" => "Requête invalide."]);
 }
+
+// Si aucune des conditions ci-dessus n'est remplie, renvoyer une erreur 400
+echo json_encode(["error" => "Requête invalide."]);
 ?>
