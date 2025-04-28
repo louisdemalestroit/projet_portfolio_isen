@@ -1,15 +1,15 @@
 <?php
 header("Content-Type: application/json");
-$host = "dpg-d07jpbhr0fns738kroq0-a";  // Le host de ta base de données Render
-$port = "5432";  // Le port de PostgreSQL
-$dbname = "iddentite";  // Le nom de la base de données
-$user = "iddentite_user";  // L'utilisateur de la base de données
-$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
+
+$host = 'localhost';
+$dbname = 'iddentite';
+$username = 'postgres';
+$password = 'isen44';
 
 try {
     // Connexion à la base de données
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer les données JSON envoyées par AJAX
     $jsonInput = file_get_contents('php://input');
@@ -43,7 +43,7 @@ try {
     $page = $data['page'];
 
     // Chercher l'id correspondant à l'identifiant dans la table utilisateurs
-    $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE iddentifiant = :iddentifiant");
+    $stmt = $db->prepare("SELECT id FROM utilisateurs WHERE iddentifiant = :iddentifiant");
     $stmt->execute([':iddentifiant' => $iddentifiant]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -63,13 +63,13 @@ try {
         $table_name = 'simplexe'; // On enregistre les données dans la table simplexe
     
         // Vérifier si une ligne existe déjà pour cet utilisateur
-        $checkStmt = $pdo->prepare("SELECT utilisateur_id FROM $table_name WHERE utilisateur_id = :user_id");
+        $checkStmt = $db->prepare("SELECT utilisateur_id FROM $table_name WHERE utilisateur_id = :user_id");
         $checkStmt->execute([':user_id' => $user_id]);
         $exists = $checkStmt->fetch();
     
         if ($exists) {
             // Mise à jour si une ligne existe déjà (seules les colonnes des commentaires sont mises à jour)
-            $stmt = $pdo->prepare("
+            $stmt = $db->prepare("
                 UPDATE $table_name 
                 SET com1 = :com1, 
                     com2 = :com2, 
@@ -80,7 +80,7 @@ try {
             ");
         } else {
             // Insertion d'une nouvelle ligne si elle n'existe pas encore
-            $stmt = $pdo->prepare("
+            $stmt = $db->prepare("
                 INSERT INTO $table_name 
                 (utilisateur_id, com1, com2, com3, com4, com5)
                 VALUES (:user_id, :com1, :com2, :com3, :com4, :com5)
@@ -107,24 +107,93 @@ try {
     }
     
     else{
-    // Vérifier si la table existe
-    $stmt = $pdo->prepare("SELECT to_regclass(:table_name)");
-    $stmt->execute([':table_name' => $table_name]);
-    $table_exists = $stmt->fetchColumn();
 
-    if (!$table_exists) {
-        echo json_encode(["success" => false, "message" => "Table '$table_name' inexistante"]);
-        exit();
+    // Vérifier si la table existe
+$stmt = $db->prepare("SELECT to_regclass(:table_name)");
+$stmt->execute([':table_name' => $table_name]);
+$table_exists = $stmt->fetchColumn();
+
+if (!$table_exists) {
+    echo json_encode(["success" => false, "message" => "Table '$table_name' inexistante"]);
+    exit();
+}
+
+// Vérifier si une ligne existe déjà pour cet utilisateur
+$checkStmt = $db->prepare("SELECT utilisateur_id FROM $table_name WHERE utilisateur_id = :user_id");
+$checkStmt->execute([':user_id' => $user_id]);
+$exists = $checkStmt->fetch();
+
+// Compter le nombre de notes
+$notes_count = count($notes);
+
+if ($notes_count === 7) {
+    // 7 notes et 7 commentaires
+    if ($exists) {
+        $stmt = $db->prepare("
+            UPDATE $table_name 
+            SET note1 = :note1, com1 = :com1, 
+                note2 = :note2, com2 = :com2, 
+                note3 = :note3, com3 = :com3, 
+                note4 = :note4, com4 = :com4, 
+                note5 = :note5, com5 = :com5,
+                note6 = :note6, com6 = :com6,
+                note7 = :note7, com7 = :com7
+            WHERE utilisateur_id = :user_id
+        ");
+    } else {
+        $stmt = $db->prepare("
+            INSERT INTO $table_name 
+            (utilisateur_id, note1, com1, note2, com2, note3, com3, note4, com4, note5, com5, note6, com6, note7, com7)
+            VALUES (:user_id, :note1, :com1, :note2, :com2, :note3, :com3, :note4, :com4, :note5, :com5, :note6, :com6, :note7, :com7)
+        ");
     }
 
-    // Vérifier si une ligne existe déjà pour cet utilisateur
-    $checkStmt = $pdo->prepare("SELECT utilisateur_id FROM $table_name WHERE utilisateur_id = :user_id");
-    $checkStmt->execute([':user_id' => $user_id]);
-    $exists = $checkStmt->fetch();
+    $params = [
+        ':user_id' => $user_id,
+        ':note1' => $notes[0] ?? null, ':com1' => $commentaires[0] ?? null,
+        ':note2' => $notes[1] ?? null, ':com2' => $commentaires[1] ?? null,
+        ':note3' => $notes[2] ?? null, ':com3' => $commentaires[2] ?? null,
+        ':note4' => $notes[3] ?? null, ':com4' => $commentaires[3] ?? null,
+        ':note5' => $notes[4] ?? null, ':com5' => $commentaires[4] ?? null,
+        ':note6' => $notes[5] ?? null, ':com6' => $commentaires[5] ?? null,
+        ':note7' => $notes[6] ?? null, ':com7' => $commentaires[6] ?? null,
+    ];
 
+} elseif ($notes_count === 6) {
+    // 6 notes et 6 commentaires
     if ($exists) {
-        // Mise à jour si une ligne existe déjà
-        $stmt = $pdo->prepare("
+        $stmt = $db->prepare("
+            UPDATE $table_name 
+            SET note1 = :note1, com1 = :com1, 
+                note2 = :note2, com2 = :com2, 
+                note3 = :note3, com3 = :com3, 
+                note4 = :note4, com4 = :com4, 
+                note5 = :note5, com5 = :com5,
+                note6 = :note6, com6 = :com6
+            WHERE utilisateur_id = :user_id
+        ");
+    } else {
+        $stmt = $db->prepare("
+            INSERT INTO $table_name 
+            (utilisateur_id, note1, com1, note2, com2, note3, com3, note4, com4, note5, com5, note6, com6)
+            VALUES (:user_id, :note1, :com1, :note2, :com2, :note3, :com3, :note4, :com4, :note5, :com5, :note6, :com6)
+        ");
+    }
+
+    $params = [
+        ':user_id' => $user_id,
+        ':note1' => $notes[0] ?? null, ':com1' => $commentaires[0] ?? null,
+        ':note2' => $notes[1] ?? null, ':com2' => $commentaires[1] ?? null,
+        ':note3' => $notes[2] ?? null, ':com3' => $commentaires[2] ?? null,
+        ':note4' => $notes[3] ?? null, ':com4' => $commentaires[3] ?? null,
+        ':note5' => $notes[4] ?? null, ':com5' => $commentaires[4] ?? null,
+        ':note6' => $notes[5] ?? null, ':com6' => $commentaires[5] ?? null,
+    ];
+
+} else {
+    // Cas par défaut : 5 notes et 5 commentaires
+    if ($exists) {
+        $stmt = $db->prepare("
             UPDATE $table_name 
             SET note1 = :note1, com1 = :com1, 
                 note2 = :note2, com2 = :com2, 
@@ -134,32 +203,35 @@ try {
             WHERE utilisateur_id = :user_id
         ");
     } else {
-        // Insertion d'une nouvelle ligne si elle n'existe pas encore
-        $stmt = $pdo->prepare("
+        $stmt = $db->prepare("
             INSERT INTO $table_name 
             (utilisateur_id, note1, com1, note2, com2, note3, com3, note4, com4, note5, com5)
             VALUES (:user_id, :note1, :com1, :note2, :com2, :note3, :com3, :note4, :com4, :note5, :com5)
         ");
     }
 
-    // Exécution de la requête
-    $stmt->execute([ 
+    $params = [
         ':user_id' => $user_id,
         ':note1' => $notes[0] ?? null, ':com1' => $commentaires[0] ?? null,
         ':note2' => $notes[1] ?? null, ':com2' => $commentaires[1] ?? null,
         ':note3' => $notes[2] ?? null, ':com3' => $commentaires[2] ?? null,
         ':note4' => $notes[3] ?? null, ':com4' => $commentaires[3] ?? null,
-        ':note5' => $notes[4] ?? null, ':com5' => $commentaires[4] ?? null
-    ]);
-
-    // Récupérer les données sauvegardées (ou mises à jour)
-    $responseData = [
-        'utilisateur_id' => $user_id,
-        'notes' => $notes,
-        'commentaires' => $commentaires,
-        'success' => true,
-        'message' => 'Données enregistrées avec succès'
+        ':note5' => $notes[4] ?? null, ':com5' => $commentaires[4] ?? null,
     ];
+}
+
+// Exécution de la requête
+$stmt->execute($params);
+
+// Récupérer les données sauvegardées (ou mises à jour)
+$responseData = [
+    'utilisateur_id' => $user_id,
+    'notes' => $notes,
+    'commentaires' => $commentaires,
+    'success' => true,
+    'message' => 'Données enregistrées avec succès'
+];
+
 
     echo json_encode($responseData);
 }
