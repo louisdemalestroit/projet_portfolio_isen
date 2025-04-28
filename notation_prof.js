@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Données de l'utilisateur récupérées :", userData);
 
             // Mettre à jour les champs de note et commentaire pour chaque catégorie
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 let noteElement = document.getElementById(`category-${i - 1}`);
                 let commentElement = document.getElementById(`textInput-${i - 1}`);
 
