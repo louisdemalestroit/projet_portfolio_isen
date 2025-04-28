@@ -1,11 +1,15 @@
 <?php
 header("Content-Type: application/json");
-$host = "dpg-d07jpbhr0fns738kroq0-a";  // Le host de ta base de données Render
-$port = "5432";  // Le port de PostgreSQL
-$dbname = "iddentite";  // Le nom de la base de données
-$user = "iddentite_user";  // L'utilisateur de la base de données
-$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
-$pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
+
+// 🔹 Connexion à la base de données
+$host = "dpg-d07jpbhr0fns738kroq0-a";  // Host Render
+$port = "5432";  // Port PostgreSQL
+$dbname = "iddentite";  // Nom de la base
+$user = "iddentite_user";  // Utilisateur
+$password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Mot de passe
+
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 } catch (PDOException $e) {
@@ -13,14 +17,19 @@ $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
     exit;
 }
 
+// 🔹 Gestion des requêtes
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["identifiant"])) {
     $identifiant = $_GET["identifiant"];
     
-    $stmt = $pdo->prepare("SELECT id, competence FROM competences WHERE iddentifiant = :identifiant");
-    $stmt->execute(["identifiant" => $identifiant]);
-    
-    $competences = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($competences);
+    try {
+        $stmt = $pdo->prepare("SELECT id, competence FROM competences WHERE iddentifiant = :identifiant");
+        $stmt->execute(["identifiant" => $identifiant]);
+        
+        $competences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($competences);
+    } catch (PDOException $e) {
+        echo json_encode(["success" => false, "error" => "Erreur de récupération : " . $e->getMessage()]);
+    }
     exit;
 }
 
@@ -45,11 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             $stmt = $pdo->prepare("INSERT INTO competences (competence, iddentifiant) VALUES (:competence, :identifiant)");
             $stmt->execute(["competence" => $competence, "identifiant" => $identifiant]);
-
             echo json_encode(["success" => true]);
         } catch (PDOException $e) {
             echo json_encode(["success" => false, "error" => "Erreur lors de l'ajout : " . $e->getMessage()]);
         }
+        exit;
     }
 
     if (isset($data["action"]) && $data["action"] === "delete" && isset($data["id"])) {
@@ -58,12 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             $stmt = $pdo->prepare("DELETE FROM competences WHERE id = :id AND iddentifiant = :identifiant");
             $stmt->execute(["id" => $id, "identifiant" => $identifiant]);
-
             echo json_encode(["success" => true]);
         } catch (PDOException $e) {
             echo json_encode(["success" => false, "error" => "Erreur lors de la suppression : " . $e->getMessage()]);
         }
+        exit;
     }
-    exit;
 }
+
+// 🔹 Si aucune route correcte atteinte
+echo json_encode(["success" => false, "error" => "Requête invalide."]);
+exit;
 ?>
