@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         try {
             // Connexion à la base de données
-            $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+            $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             // En cas d'échec de connexion
@@ -59,3 +59,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     http_response_code(405); // 405 Method Not Allowed
     echo json_encode(['status' => 'error', 'message' => 'Méthode non autorisée']);
 }
+?>
