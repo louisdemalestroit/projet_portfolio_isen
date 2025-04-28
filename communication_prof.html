@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simplexe Interactif</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Style/styles.css">
 </head>
 <body>
     <header>
-        <nav class="menu">
-            <div class="left-group">
+        <nav class="menu_fichier">
+            <div class="left-group_fichier">
                 <a href="Carte_Personnel.html" class="nav-link button_fichier">Liste Elèves</a>
-                <a href="fichier_prof.html" class="nav-link button_fichier">Document rendu</a>
+                <a href="liste_bilan_prof.html" class="nav-link button_fichier">Bilan Eleve</a>
+                <a href="Dossiers.html" class="nav-link button_fichier">Document rendu</a>
+                <a href="carte_competence_prof.html" class="nav-link button_fichier">Carte Competence Eleve</a>
                 <a href="Simplexe_prof.html" class="nav-link button_fichier">Simplexe</a>
             </div>
-            <div class="right-group">
+            <div class="right-group1">
                 <span id="identifiant-affiche"></span> 
-                <a href="connexion.html" class="button">Deconnexion</a>
+                <a href="connexion.html" class=" button_fichier">Deconnexion</a>
             </div>
         </nav>
     </header>
@@ -29,7 +31,7 @@
 
         <!-- Onglets -->
         <div class="tabs">
-            <button class="tab-button active" data-target="eleve">Élève</button>
+            <button class="tab-button active" data-target="eleve" id="eleve-button">Élève</button>
             <a href="notation_prof.html" class="tab-button" id="prof-button">Prof</a> <!-- Lien vers la page Professeur -->
         </div>
 
@@ -47,7 +49,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             const currentPage = "communication.html";  // Identifier la page actuelle
-            categories = JSON.parse(localStorage.getItem(currentPage)) || ["Mathématiques", "Sciences", "Français", "Histoire", "Anglais"];
+            const categories = JSON.parse(localStorage.getItem(currentPage)) || ["Mathématiques", "Sciences", "Français", "Histoire", "Anglais"];
             localStorage.setItem('categories', JSON.stringify(categories));
 
             const categoriesContainer = document.querySelector(".categories-container");
@@ -57,13 +59,13 @@
                 const div = document.createElement("div");
                 div.classList.add("evaluation-item");
                 div.innerHTML = `
-                    <h3>${category}</h3>
+                    <h3 class="comment-title">${category}</h3>
                     <div class="sub-title">Notes</div>
-                    <select onchange="updatePoint(${index}, this.value)" id="category-${index}">
+                    <select onchange="updatePoint(${index}, this.value)" id="category-${index}" disabled>
                         ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
                     </select>
                     <div class="sub-title">Commentaire</div>
-                    <input type="text" id="textInput-${index}" placeholder="Modifiez ici" />
+                    <textarea id="textInput-${index}" placeholder="Modifiez ici" disabled></textarea>
                 `;
                 categoriesContainer.appendChild(div);
             });
@@ -72,63 +74,88 @@
             updateGraph(categories);
         });
 
-        const width = 600;
-        const height = 600;
-        const radius = 200;
-        const centerX = 300;
+        const width = 300;
+        const height = 300;
+        const radius = 100;
+        const centerX = width /2;
         const centerY = height / 2;
 
         const svg = d3.select("svg").attr("width", width).attr("height", height);
 
         // Fonction pour mettre à jour le graphique Simplexe avec les catégories
         function updateGraph(categories) {
-            angleStep = (2 * Math.PI) / categories.length;
+    // Calculer angleStep ici
+    angleStep = (2 * Math.PI) / categories.length;  // Déplace ici
 
-            // Supprimer le contenu précédent du graphique
-            svg.selectAll("*").remove();
+    // Supprimer le contenu précédent du graphique
+    svg.selectAll("*").remove();
 
-            const pentagonPoints = categories.map((category, i) => {
-                const angle = i * angleStep;
-                return {
-                    x: centerX + radius * Math.cos(angle),
-                    y: centerY + radius * Math.sin(angle),
-                    category: category
-                };
-            });
+    const pentagonPoints = categories.map((category, i) => {
+        const angle = i * angleStep;
+        return {
+            x: centerX + radius * Math.cos(angle),
+            y: centerY + radius * Math.sin(angle),
+            category: category
+        };
+    });
 
-            // Ajouter les lignes du pentagone
-            svg.selectAll(".line")
-                .data(pentagonPoints)
-                .enter().append("line")
-                .attr("class", "line")
-                .attr("x1", centerX)
-                .attr("y1", centerY)
-                .attr("x2", d => d.x)
-                .attr("y2", d => d.y);
+    // Ajouter les lignes du pentagone
+    svg.selectAll(".line")
+        .data(pentagonPoints)
+        .enter().append("line")
+        .attr("class", "line")
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", d => d.x)
+        .attr("y2", d => d.y);
 
-            // Ajouter les labels des catégories
-            svg.selectAll(".label")
-                .data(pentagonPoints)
-                .enter().append("text")
-                .attr("x", d => d.x + (d.x - centerX) * 0.25)
-                .attr("y", d => d.y + (d.y - centerY) * 0.25)
-                .attr("text-anchor", "middle")
-                .attr("font-size", "14px")
-                .text(d => d.category);
+    // Ajouter les labels des catégories
+    svg.selectAll(".label")
+  .data(pentagonPoints)
+  .enter()
+  .append("text")
+  .attr("class", "category-label")
+  .attr("x", d => d.x + (d.x - centerX) * 0.4)
+  .attr("y", d => d.y + (d.y - centerY) * 0.4 - 3)
+  .attr("text-anchor", "middle")
+  .attr("font-size", "8px")
+  .each(function(d) {
+    const maxCharsPerLine = 20;
+    const words = d.category.split(" ");
+    let line = "";
+    let lines = [];
+    
+    words.forEach(word => {
+      if ((line + word).length <= maxCharsPerLine) {
+        line += (line ? " " : "") + word;
+      } else {
+        lines.push(line);
+        line = word;
+      }
+    });
+    lines.push(line);
 
-            // Dessiner les cercles représentant les niveaux
-            for (let i = 1; i <= 10; i++) {
-                const r = (radius / 10) * i;
-                svg.append("polygon")
-                    .attr("points", pentagonPoints.map(d => {
-                        const angle = Math.atan2(d.y - centerY, d.x - centerX);
-                        return `${centerX + r * Math.cos(angle)},${centerY + r * Math.sin(angle)}`; 
-                    }).join(" "))
-                    .attr("stroke", "black")
-                    .attr("stroke-dasharray", "4 4")
-                    .attr("fill", "none");
-            }
-        }
+    lines.forEach((l, i) => {
+      d3.select(this).append("tspan")
+        .attr("x", d.x + (d.x - centerX) * 0.25)
+        .attr("dy", i === 0 ? 0 : "14") // saut de ligne
+        .text(l);
+    });
+  });
+
+
+    // Dessiner les cercles représentant les niveaux
+    for (let i = 1; i <= 10; i++) {
+        const r = (radius / 10) * i;
+        svg.append("polygon")
+            .attr("points", pentagonPoints.map(d => {
+                const angle = Math.atan2(d.y - centerY, d.x - centerX);
+                return `${centerX + r * Math.cos(angle)},${centerY + r * Math.sin(angle)}`; 
+            }).join(" ")).attr("stroke", "black")
+            .attr("stroke-dasharray", "4 4")
+            .attr("fill", "none");
+    }
+}
 
         function updatePoint(index1, index2, value1, value2) {
     const level1 = parseInt(value1);
@@ -285,7 +312,7 @@ function updatePentagon() {
         });
     </script>
     <script src="Simplexe_prof.js"></script>
-    
+    <script src="script.js"></script>
     <script src="navigation.js" defer></script>
 </body>
 </html>
