@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simplexe Interactif</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Style/styles.css">
 </head>
 <body>
     <header>
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div");
     div.classList.add("evaluation-item");
     div.innerHTML = `
-        <h3>${category}</h3>
+        <h3 class="comment-title">${category}</h3>
         <div class="sub-title">Notes</div>
         <select  id="category-${index}" >
             ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
@@ -80,6 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <textarea id="textInput-${index}" placeholder="Modifiez ici"></textarea>
     `;
     categoriesContainer.appendChild(div);
+
+    const select = div.querySelector(`#category-${index}`);
+                select.addEventListener("change", (e) => {
+                    updatePoint(index, e.target.value);
+                });
+
+                // Initialiser avec la première valeur sélectionnée
+                updatePoint(index, select.value);
 });
     // Mettre à jour le graphique Simplexe
     updateGraph(categories);
@@ -123,13 +131,38 @@ function updateGraph(categories) {
 
     // Ajouter les labels des catégories
     svg.selectAll(".label")
-        .data(pentagonPoints)
-        .enter().append("text")
-        .attr("x", d => d.x + (d.x - centerX) * 0.25)
-        .attr("y", d => d.y + (d.y - centerY) * 0.25)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .text(d => d.category);
+  .data(pentagonPoints)
+  .enter()
+  .append("text")
+  .attr("class", "category-label")
+  .attr("x", d => d.x + (d.x - centerX) * 0.4)
+  .attr("y", d => d.y + (d.y - centerY) * 0.4 - 10)
+  .attr("text-anchor", "middle")
+  .attr("font-size", "8px")
+  .each(function(d) {
+    const maxCharsPerLine = 20; // tu peux ajuster ce nombre
+    const words = d.category.split(" ");
+    let line = "";
+    let lines = [];
+    
+    words.forEach(word => {
+      if ((line + word).length <= maxCharsPerLine) {
+        line += (line ? " " : "") + word;
+      } else {
+        lines.push(line);
+        line = word;
+      }
+    });
+    lines.push(line);
+
+    lines.forEach((l, i) => {
+      d3.select(this).append("tspan")
+        .attr("x", d.x + (d.x - centerX) * 0.35)
+        .attr("dy", i === 0 ? 0 : "14") // saut de ligne
+        .text(l);
+    });
+  });
+
 
     // Dessiner les cercles représentant les niveaux
     for (let i = 1; i <= 10; i++) {
@@ -224,7 +257,6 @@ function updatePentagon() {
 
 
     </script>
-    <script src="Simplexe_prof.js"></script>
     <script src="simplexe.js"></script>
     <script src="script.js"></script>
     <script src="navigation.js" defer></script>
