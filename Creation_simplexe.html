@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modification des Catégories</title>
-    <link rel="stylesheet" href="styless.css">
+    <link rel="stylesheet" href="Style/styless.css">
 </head>
 <body>    
     <header>
@@ -30,49 +31,134 @@
             <option value="reflexion.html">Reflexion</option>
         </select>
         <br><br>
-        
+
         <div id="categories-inputs">
-            <input type="text" id="cat-0" placeholder="Catégorie 1">
-            <input type="text" id="cat-1" placeholder="Catégorie 2">
-            <input type="text" id="cat-2" placeholder="Catégorie 3">
-            <input type="text" id="cat-3" placeholder="Catégorie 4">
-            <input type="text" id="cat-4" placeholder="Catégorie 5">
+            <!-- Champs générés dynamiquement -->
         </div>
         <br>
+        <button id="add-button">+ Ajouter une catégorie</button>
+        <br><br>
         <button id="save-button">Valider</button>
+
+        <button id="delete-button">Supprimer les données</button>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-    const pageSelect = document.getElementById("page-select");
-    const saveButton = document.getElementById("save-button");
-
-    function loadCategories() {
-        const selectedPage = pageSelect.value;
-        const storedCategories = JSON.parse(localStorage.getItem(selectedPage));
-
-        for (let i = 0; i < 5; i++) {
-            const inputField = document.getElementById(`cat-${i}`);
-            inputField.value = storedCategories && storedCategories[i] ? storedCategories[i] : "";
-        }
-    }
-
-    saveButton.addEventListener("click", () => {
-        const selectedPage = pageSelect.value;
-        const newCategories = [];
-
-        for (let i = 0; i < 5; i++) {
-            newCategories.push(document.getElementById(`cat-${i}`).value);
-        }
-
-        localStorage.setItem(selectedPage, JSON.stringify(newCategories));
-        alert(`Catégories mises à jour pour ${selectedPage}`);
-    });
-
-    pageSelect.addEventListener("change", loadCategories);
-    loadCategories(); // Charger les catégories initialement pour la page sélectionnée par défaut
-});
-
+            const pageSelect = document.getElementById("page-select");
+            const saveButton = document.getElementById("save-button");
+            const addButton = document.getElementById("add-button");
+            const deleteButton = document.getElementById("delete-button");
+            const inputsContainer = document.getElementById("categories-inputs");
+    
+            function loadCategories() {
+                const selectedPage = pageSelect.value;
+                const storedCategories = JSON.parse(localStorage.getItem(selectedPage)) || [];
+    
+                // Supprimer tous les champs actuels
+                inputsContainer.innerHTML = '';
+    
+                storedCategories.forEach((value, i) => {
+                    addCategoryInput(value, i);
+                });
+    
+                // Toujours avoir au moins 5 champs
+                for (let i = storedCategories.length; i < 5; i++) {
+                    addCategoryInput('', i);
+                }
+            }
+    
+            function addCategoryInput(value = "", index = null) {
+                const currentCount = inputsContainer.querySelectorAll("input").length;
+                if (currentCount >= 7) return;
+    
+                const div = document.createElement("div");
+                div.className = "input-wrapper";
+    
+                const input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = `Catégorie ${currentCount + 1}`;
+                input.value = value;
+                input.id = `cat-${currentCount}`;
+    
+                div.appendChild(input);
+    
+                // Ajouter bouton "Supprimer" si au-delà des 5 premiers
+                if (currentCount >= 5) {
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.textContent = "Supprimer";
+                    deleteBtn.type = "button";
+                    deleteBtn.style.marginLeft = "8px";
+                    deleteBtn.onclick = () => {
+                        div.remove();
+                        updateInputIds();
+                    };
+                    div.appendChild(deleteBtn);
+                }
+    
+                inputsContainer.appendChild(div);
+            }
+    
+            function updateInputIds() {
+                const inputWrappers = inputsContainer.querySelectorAll(".input-wrapper");
+                inputWrappers.forEach((wrapper, index) => {
+                    const input = wrapper.querySelector("input");
+                    input.id = `cat-${index}`;
+                    input.placeholder = `Catégorie ${index + 1}`;
+                });
+            }
+    
+            addButton.addEventListener("click", () => {
+                const currentCount = inputsContainer.querySelectorAll("input").length;
+                if (currentCount < 7) {
+                    addCategoryInput();
+                }
+            });
+    
+            saveButton.addEventListener("click", () => {
+                const selectedPage = pageSelect.value;
+    
+                // Sélectionne uniquement les champs présents
+                const inputs = inputsContainer.querySelectorAll("input");
+    
+                // Récupère leurs valeurs (et ignore les champs vides)
+                const newCategories = Array.from(inputs)
+                    .map(input => input.value)
+                    .filter(value => value.trim() !== "");
+    
+                localStorage.setItem(selectedPage, JSON.stringify(newCategories));
+                alert(`Catégories mises à jour pour ${selectedPage}`);
+            });
+    
+            deleteButton.addEventListener("click", () => {
+                const selectedPage = pageSelect.value;
+                const tableName = selectedPage.replace(".html", ""); // Envoie juste "communication" etc.
+    
+                // 🔍 Affichage dans la console de ce qui est envoyé
+                console.log("Table envoyée dans la requête :", tableName);
+    
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "delete_category.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            alert("Les données ont été supprimées avec succès.");
+                            localStorage.removeItem(selectedPage);
+                            loadCategories(); // Recharger les catégories après suppression
+                        } else {
+                            alert("Erreur lors de la suppression des données.");
+                        }
+                    }
+                };
+                xhr.send("category=" + encodeURIComponent(tableName));
+            });
+    
+            pageSelect.addEventListener("change", loadCategories);
+            loadCategories(); // Chargement initial
+        });
     </script>
+    
 </body>
 </html>
