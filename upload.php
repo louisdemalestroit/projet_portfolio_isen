@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $publicId = $cleanedFilename . '.' . $fileExtension;
 
     try {
+        // Tentative d'upload vers Cloudinary
         $upload = (new UploadApi())->upload($fileTmpPath, [
             "folder" => "fichiers_eleves",
             "resource_type" => "auto",
@@ -63,21 +64,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "unique_filename" => false
         ]);
 
+        // Si l'upload a réussi, récupérer l'URL du fichier
         $fileUrl = $upload["url"];
 
+        // Sauvegarde de l'URL dans la base de données
         $stmt = $pdo->prepare("INSERT INTO fichier (iddentifiant, url) VALUES (?, ?)");
         $stmt->execute([$identifiant, $fileUrl]);
 
         echo json_encode(["success" => true, "fileUrl" => $fileUrl]);
     } catch (ApiError $e) {
+        // Capture de l'erreur Cloudinary
         echo json_encode(["error" => "Erreur Cloudinary: " . $e->getMessage()]);
     }
     exit;
 
 } elseif ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["identifiant"])) {
-    $stmt = $pdo->prepare("SELECT url FROM fichier WHERE iddentifiant = ?");
-    $stmt->execute([$_GET["identifiant"]]);
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    try {
+        $stmt = $pdo->prepare("SELECT url FROM fichier WHERE iddentifiant = ?");
+        $stmt->execute([$_GET["identifiant"]]);
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    } catch (PDOException $e) {
+        echo json_encode(["error" => "Erreur de récupération des fichiers : " . $e->getMessage()]);
+    }
     exit;
 
 } elseif ($_SERVER["REQUEST_METHOD"] === "DELETE") {
