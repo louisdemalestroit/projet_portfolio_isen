@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Données de l'utilisateur:", userData);
 
             // Mettre à jour les champs de note et commentaire pour chaque catégorie
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 let noteElement = document.getElementById(`category-${i - 1}`);
                 let commentElement = document.getElementById(`textInput-${i - 1}`);
 
@@ -60,11 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
-
-
 // Fonction pour extraire les paramètres de l'URL
 function getQueryParams() {
     let params = {};
@@ -90,41 +85,36 @@ function collectFormData() {
 
     let data = {
         utilisateur_id: 4,
-        iddentifiant: queryParams.identifiant || null, // Ajoute l'identifiant de l'URL
+        iddentifiant: queryParams.identifiant || null,
         notes: [],
         commentaires: [],
-        page: window.location.pathname // Ajoute seulement la page d'origine
+        page: window.location.pathname
     };
 
-    // Récupérer les catégories depuis localStorage
     const categories = getCategoriesFromLocalStorage();
 
-    // Récupérer toutes les sélections (notes) et les commentaires dans les champs
     categories.forEach((category, index) => {
         const noteElement = document.getElementById(`category-${index}`);
         const commentElement = document.getElementById(`textInput-${index}`);
 
         if (noteElement && commentElement) {
-            const note = parseInt(noteElement.value, 10); // Assurez-vous que note est un nombre
+            const note = parseInt(noteElement.value, 10);
             const commentaire = commentElement.value;
 
-            if (note && commentaire) {
+            if (!isNaN(note) && commentaire !== undefined) {
                 data.notes.push(note);
                 data.commentaires.push(commentaire);
             } else {
-                console.error(`Erreur : Les éléments pour la catégorie ${category} sont introuvables.`);
+                console.error(`Note ou commentaire invalide pour la catégorie ${category}`);
             }
         } else {
-            console.error(`Erreur : Les éléments pour la catégorie ${category} sont introuvables.`);
+            console.error(`Éléments manquants pour la catégorie ${category}`);
         }
     });
 
-    // Log de l'objet data avant de l'envoyer
     console.log("Données envoyées :", JSON.stringify(data));
-
     return data;
 }
-
 // Ajouter l'événement de clic sur le bouton Valider
 document.getElementById('validateButton').addEventListener('click', () => {
     const data = collectFormData();
