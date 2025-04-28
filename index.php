@@ -50,7 +50,7 @@ try {
             personnel VARCHAR(500),
             projet VARCHAR(500),
             description VARCHAR(500),
-            analyse VARCHAR(500),
+            annalyse VARCHAR(500),
             iddentifiant VARCHAR(255),
             FOREIGN KEY (iddentifiant) REFERENCES utilisateurs(iddentifiant) ON DELETE CASCADE
         );";
