@@ -24,7 +24,7 @@ try {
             prenom VARCHAR(255) NOT NULL,
             nom VARCHAR(255) NOT NULL,
             iddentifiant VARCHAR(255) UNIQUE NOT NULL,
-            mot_de_passe VARCHAR(255) NOT NULL
+            mot_de_passe VARCHAR(255) NOT NULL,
             statut VARCHAR(50) NOT NULL
         );";
         
