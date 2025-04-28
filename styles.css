@@ -1,5 +1,3 @@
-/* Contenu du CSS dominant (premier fichier) */
-
 .menu_fichier {
     display: flex;
     justify-content: space-between;
@@ -51,13 +49,6 @@
 
 
 
-.right-group1 {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-
 
 /* Style général du body */
 body {
@@ -85,6 +76,13 @@ body {
     gap: 1rem;
 }
 
+.right-group1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: black;
+}
+
 .menu button {
     background-color: rgb(218, 218, 177);
     color: #333;
@@ -109,51 +107,36 @@ body {
 
 
 
-/* Dropdown Menu 3 amélioré et compact */
+/* Ajuster le menu déroulant */
 .dropdown-menu3 {
     position: absolute;
-    background-color: #ffffff;
-    color: #333;
-    list-style: none;
-    padding: 5px;  /* Réduction du padding pour rendre le menu plus compact */
-    border-radius: 5px;  /* Bordure arrondie plus petite */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 100%;
+    left: 0;
+    min-width: 200px; /* Ajuste la largeur */
+    background-color: rgb(218, 218, 177);
     display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    transform: translateY(10px);
-    min-width: 120px;  /* Réduction de la largeur minimale */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 10;
 }
 
-.dropdown:hover .dropdown-menu3 {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Liste des éléments du menu */
 .dropdown-menu3 li {
-    padding: 0.5rem 1rem;  /* Réduction du padding pour compacter davantage */
-    font-size: 0.9rem;  /* Réduction de la taille du texte pour le rendre plus petit */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 100%;
 }
 
-.dropdown-menu3 li:hover {
-    background-color: #c0c078;
-    color: white;
-    transform: translateX(5px);
-}
-
-/* Pour l'icône ou le texte */
 .dropdown-menu3 li a {
-    color: inherit;
-    text-decoration: none;
     display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }
 
 .dropdown-menu3 li a:hover {
-    color: white;
+    background-color: #c0c078;
 }
 
 /* Apparence du bouton parent */
@@ -812,3 +795,37 @@ textarea {
     word-wrap: break-word; /* Retour à la ligne automatique */
     min-height: 15em;    /* Hauteur minimale pour la zone de texte */
 }
+
+
+.comment-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: whrite; /* Change la couleur ici selon ta palette de couleurs actuelle */
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    word-wrap: break-word; /* Permet au texte de passer à la ligne si nécessaire */
+    white-space: normal;  /* Permet au texte de se diviser en plusieurs lignes */
+    max-width: 275px;  /* Tu peux ajuster la largeur ici pour forcer plus tôt le retour à la ligne */
+    text-align: center;  /* Centrage du texte */
+    line-height: 1.4;  /* Ajuste l'espacement des lignes si besoin */
+}
+
+
+
+  
+
+svg {
+    width: 325px; /* ou une autre taille suffisante */
+    height: 340px;
+    overflow: hidden;  /* Vérifie si cette ligne est là */
+}
+
+
+
+
+
+
+
+
+
+
