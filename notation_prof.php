@@ -1,6 +1,7 @@
 <?php
 header("Content-Type: application/json");
 
+// Définition des variables de connexion à la base de données
 $host = "dpg-d07jpbhr0fns738kroq0-a";  // Le host de ta base de données Render
 $port = "5432";  // Le port de PostgreSQL
 $dbname = "iddentite";  // Le nom de la base de données
@@ -8,12 +9,15 @@ $user = "iddentite_user";  // L'utilisateur de la base de données
 $password = "dTgQCI7wlWV9JgkGqeUDJ6AdydeJA9JH";  // Le mot de passe de l'utilisateur
 
 try {
-    $db = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+    // Connexion à la base de données PostgreSQL
+    $db = new PDO("pgsql:host=$host;dbname=$dbname;port=$port", $user, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Récupérer les données envoyées en POST
     $jsonInput = file_get_contents('php://input');
     $data = json_decode($jsonInput, true);
 
+    // Vérifier que les données nécessaires sont présentes
     if (!isset($data['iddentifiant'], $data['notes'], $data['commentaires'], $data['page'])) {
         echo json_encode(["success" => false, "message" => "Données incomplètes"]);
         exit();
@@ -40,7 +44,7 @@ try {
     $table_name = preg_replace('/[^a-zA-Z0-9_]/', '_', basename($page, '.html'));
 
     if ($table_name == 'bilan') {
-
+        // Cas où la table est 'bilan' et on enregistre les données dans 'simplexe'
         if ($bilan == "oui") {
             $table_name = 'simplexe'; // On enregistre les données dans la table simplexe
 
@@ -83,14 +87,13 @@ try {
                 ':com7' => $commentaires[6] ?? null
             ]);
 
-            // Récupérer les données sauvegardées (ou mises à jour)
-            $responseData = [
-                'utilisateur_id' => $user_id,
-                'commentaires' => $commentaires,
+            // Réponse de succès
+            echo json_encode([
                 'success' => true,
                 'message' => 'Données enregistrées avec succès dans simplexe'
-            ];
+            ]);
         } else {
+            // Cas où la table n'est pas 'bilan' et qu'on enregistre des moyennes et des commentaires dans d'autres tables
             $tables = ['reflexion', 'communication', 'recul', 'resolution', 'organisation'];
             $moyennes = [];
 
@@ -106,51 +109,11 @@ try {
                 }
             }
 
-            // Vérifier si une ligne existe déjà pour cet utilisateur
-            $checkStmt = $db->prepare("SELECT utilisateur_id FROM simplexe WHERE utilisateur_id = :user_id");
-            $checkStmt->execute([':user_id' => $user_id]);
-            $exists = $checkStmt->fetch();
-
-            if ($exists) {
-                // Mise à jour si une ligne existe déjà (seules les colonnes des commentaires sont mises à jour)
-                $stmt = $db->prepare("
-                    UPDATE $table_name 
-                    SET com1 = :com1, 
-                        com2 = :com2, 
-                        com3 = :com3, 
-                        com4 = :com4, 
-                        com5 = :com5,
-                        com6 = :com6,
-                        com7 = :com7
-                    WHERE utilisateur_id = :user_id
-                ");
-            } else {
-                // Insertion d'une nouvelle ligne si elle n'existe pas encore
-                $stmt = $db->prepare("
-                    INSERT INTO $table_name 
-                    (utilisateur_id, com1, com2, com3, com4, com5, com6, com7)
-                    VALUES (:user_id, :com1, :com2, :com3, :com4, :com5, :com6, :com7)
-                ");
-            }
-
-            // Exécution de la requête
-            $stmt->execute([ 
-                ':user_id' => $user_id,
-                ':com1' => $commentaires[0] ?? null,
-                ':com2' => $commentaires[1] ?? null,
-                ':com3' => $commentaires[2] ?? null,
-                ':com4' => $commentaires[3] ?? null,
-                ':com5' => $commentaires[4] ?? null,
-                ':com6' => $commentaires[5] ?? null,
-                ':com7' => $commentaires[6] ?? null
-            ]);
-
-            $data = array_merge($moyennes, $commentaires);
-            // Envoie des moyennes et des commentaires dans la réponse JSON
+            // Réponse de succès avec moyennes et commentaires
             echo json_encode([
                 "success" => true,
                 "message" => "Moyennes et commentaires récupérés avec succès.",
-                "data" => [$data]
+                "data" => array_merge($moyennes, $commentaires)
             ]);
         }
     } else {
@@ -188,6 +151,7 @@ try {
             ");
         }
 
+        // Exécution de la requête
         $stmt->execute([ 
             ':user_id' => $user_id,
             ':note1' => $notes[0] ?? null, ':com1' => $commentaires[0] ?? null,
@@ -199,9 +163,12 @@ try {
             ':note7' => $notes[6] ?? null, ':com7' => $commentaires[6] ?? null
         ]);
 
+        // Réponse de succès
         echo json_encode(["success" => true, "message" => "Données enregistrées avec succès"]);
     }
 } catch (PDOException $e) {
-    echo json_encode(["success" => false, "message" => "Erreur serveur"]);
+    // Erreur serveur
+    echo json_encode(["success" => false, "message" => "Erreur serveur : " . $e->getMessage()]);
 }
 ?>
+
